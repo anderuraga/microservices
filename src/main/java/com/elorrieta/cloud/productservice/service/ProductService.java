@@ -18,7 +18,7 @@ public class ProductService {
 		return (List<Product>) productRepository.findAll();
 	}
 
-	public List<Product> getByCatId(int catId) {
+	public List<Product> getAllByCatId(int catId) {
 		return productRepository.findByCatId(catId);
 	}
 
@@ -29,5 +29,11 @@ public class ProductService {
 
 	public Product findById(int id) {		
 		return productRepository.findById(id).orElse(null);
+	}
+	
+	
+	
+	public void delete (int id) {
+		productRepository.deleteById(id);		
 	}
 }
