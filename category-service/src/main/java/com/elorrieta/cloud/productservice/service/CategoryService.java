@@ -24,7 +24,7 @@ public class CategoryService {
 	}
 
 	public List<Product> getAllProduct(int catId) {
-		String url = "http://localhost:8001/product?catId=" + catId;
+		String url = "http://localhost:8002/product?catId=" + catId;
 		List<Product> products = restTemplate.getForObject(url, List.class);
 		return products;
 	}
