@@ -3,6 +3,7 @@ package com.elorrieta.cloud.productservice.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,21 +46,21 @@ public class ProductController {
 	}
 	
 	@RequestMapping( method = RequestMethod.DELETE , path = "{id}")	
-	public ResponseEntity<Object> delete(@PathVariable("id") int id) {
+	public ResponseEntity<Void> delete(@PathVariable("id") int id) {
 		productService.delete(id);		
-		return ResponseEntity.ok(id); // 200
+		return ResponseEntity.status(HttpStatus.OK).build(); // 200, empty body
 	}
 	
 	
 	@RequestMapping( method = RequestMethod.POST)	
-	public ResponseEntity<Object> save(@RequestBody Product product) {
+	public ResponseEntity<Product> save(@RequestBody Product product) {
 		Product p = productService.save(product);		
 		return ResponseEntity.ok(p); // 200
 	}
 	
 	
 	@RequestMapping( method = RequestMethod.PUT, path = "{id}")	
-	public ResponseEntity<Object> update(@RequestBody Product product,@PathVariable("id") int id) {
+	public ResponseEntity<Product> update(@RequestBody Product product,@PathVariable("id") int id) {
 		
 		product.setId(id);
 		Product p = productService.save(product);		
