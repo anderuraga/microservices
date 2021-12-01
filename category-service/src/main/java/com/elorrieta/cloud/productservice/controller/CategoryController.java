@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.elorrieta.cloud.productservice.entity.Category;
+import com.elorrieta.cloud.productservice.entity.Product;
 import com.elorrieta.cloud.productservice.service.CategoryService;
 
 @RestController
@@ -20,7 +21,7 @@ public class CategoryController {
 	@Autowired
 	CategoryService categoryService;
 
-	@RequestMapping( method = RequestMethod.GET )
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Category>> getAll() {
 		List<Category> categorys = categoryService.getAll();
 		if (categorys.isEmpty()) {
@@ -29,7 +30,7 @@ public class CategoryController {
 		return ResponseEntity.ok(categorys); // 200
 	}
 
-	@RequestMapping( method = RequestMethod.GET , path = "{id}")	
+	@RequestMapping(method = RequestMethod.GET, path = "{id}")
 	public ResponseEntity<Category> getById(@PathVariable("id") int id) {
 		Category c = categoryService.findById(id);
 		if (c == null) {
@@ -37,27 +38,33 @@ public class CategoryController {
 		}
 		return ResponseEntity.ok(c); // 200
 	}
-	
-	@RequestMapping( method = RequestMethod.DELETE , path = "{id}")	
+
+	@RequestMapping(method = RequestMethod.DELETE, path = "{id}")
 	public ResponseEntity<Object> delete(@PathVariable("id") int id) {
-		categoryService.delete(id);		
+		categoryService.delete(id);
 		return ResponseEntity.ok(id); // 200
 	}
-	
-	
-	@RequestMapping( method = RequestMethod.POST)	
+
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Object> save(@RequestBody Category category) {
-		Category c = categoryService.save(category);		
+		Category c = categoryService.save(category);
 		return ResponseEntity.ok(c); // 200
 	}
-	
-	
-	@RequestMapping( method = RequestMethod.PUT, path = "{id}")	
-	public ResponseEntity<Object> update(@RequestBody Category category ,@PathVariable("id") int id) {		
+
+	@RequestMapping(method = RequestMethod.PUT, path = "{id}")
+	public ResponseEntity<Object> update(@RequestBody Category category, @PathVariable("id") int id) {
 		category.setId(id);
-		categoryService.save(category);		
+		categoryService.save(category);
 		return ResponseEntity.ok(category); // 200
 	}
 
+	@RequestMapping(method = RequestMethod.GET, path = "/{catId}/product")
+	public ResponseEntity<List<Product>> getProductsById(@PathVariable("catId") int catId) {
+		List<Product> products = categoryService.getAllProduct(catId);
+		if (products.isEmpty()) {
+			return ResponseEntity.noContent().build(); // 204
+		}
+		return ResponseEntity.ok(products); // 200
+	}
 
 }
